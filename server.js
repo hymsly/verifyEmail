@@ -31,6 +31,8 @@ app.use(function (req, res, next) {
   next();
 });
 
+app.use(express.static(path.join(__dirname, 'client')));
+
 app.get('/api', function (req, res) {
   res.end('file catcher example');
 });

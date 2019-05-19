@@ -1,5 +1,5 @@
-emailBackend/node_modules
-emailFrontend/node_modules
+node_modules
+client_dev/node_modules
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
