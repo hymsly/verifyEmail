@@ -1,4 +1,3 @@
-import openpyxl as excel
 import threading
 import smtplib
 import imaplib
@@ -7,6 +6,7 @@ import email
 import os
 import pandas as pd
 import numpy as np
+import sys
 
 mensaje_error = str("No se encontr")
 
@@ -98,50 +98,13 @@ def leer_mensajes_no_validos(imap_host,user,password):
     imap.close()
     return correos_no_validos
 
-def recoge_correos(Hoja):
-    correos = []
-    for row in Hoja.values:
-        contador = 0
-        for value in row:
-            value = str(value)
-            if(value == "None"):
-                break
-            correos.append(value)
-            contador = contador + 1
-        if(contador == 0):
-            break
-    return correos
-
-def crea_hoja_resultado(Hoja_Resultado,doc):
-    existe = False
-    for hojas in doc.sheetnames:
-        if(hojas == Hoja_Resultado):
-            existe = True
-    if(not existe):
-        doc.create_sheet(Hoja_Resultado,0)
-    doc.save(libro)
-    return
-
-def guarda_resultado(columna,correos,Hoja_Resultado,doc):
-    if(columna == "A"):
-        Hoja_Resultado['A1'] = "Correos Validos"
-    else:
-        Hoja_Resultado['B1'] = "Correos No Validos"
-    for i in range(len(correos)):
-        celda = str(columna+str(i+2))
-        Hoja_Resultado[celda] = correos[i]
-    print(correos)
-    doc.save(libro)
-    return
-
 if __name__ == '__main__':
     directorio = 'uploads'
-    libro = 'prueba' ##debe ser parametro de entrada
+    ##debe ser parametro de entrada
+    libro = sys.argv[1].split('.')[0]
     extension = '.xlsx'
     filename = os.path.join(directorio,libro+extension)
     fileoutput = os.path.join(directorio,libro+'_output'+extension)
-    #doc = excel.load_workbook(filename)
-    #Hoja = doc["BD Correos"]
     df = pd.read_excel(filename,header=None)
     df.columns = ['email']
     print(df.head())
@@ -154,8 +117,6 @@ if __name__ == '__main__':
     imap_host = 'imap.gmail.com'
 
     limpiar_mensajes(user,password,imap_host)
-
-    #correos_por_validar = recoge_correos(emails)
 
     enviar_mensaje(emails,mensaje,smtp_host,user,password)
 
@@ -174,19 +135,7 @@ if __name__ == '__main__':
     df['resultado'] = np.array(resultado)
     print(df.head(20))
     df.to_excel(fileoutput)
-    #correos_validos = set(emails)
 
-    #for correo in correos_no_validos:
-    #    correos_validos.remove(correo)
-
-    #correos_validos = list(correos_validos)
-    #print(correos_no_validos)
-    #print(correos_validos)
-    #crea_hoja_resultado("Resultados",doc)
-    #Hoja_Resultado = doc["Resultados"]
-
-    #guarda_resultado('A',correos_validos,Hoja_Resultado,doc)
-    #guarda_resultado('B',correos_no_validos,Hoja_Resultado,doc)
     
     
     

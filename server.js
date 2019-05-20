@@ -7,7 +7,7 @@ const multer = require('multer');
 const bodyParser = require('body-parser')
 const app = express();
 const router = express.Router();
-
+const spawn = require('child_process').spawn;
 const DIR = './uploads';
 
 let storage = multer.diskStorage({
@@ -46,6 +46,9 @@ app.post('/api/upload', upload.single('photo'), function (req, res) {
 
   } else {
     console.log('file received');
+    console.log(req.file)
+    //debe llamar al py
+    const pythonProcess  = spawn("python", ["ValidadorEmail.py",req.file.filename]);
     return res.send({
       success: true
     })

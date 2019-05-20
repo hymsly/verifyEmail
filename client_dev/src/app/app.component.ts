@@ -3,7 +3,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FileUploader, FileSelectDirective } from 'ng2-file-upload/ng2-file-upload';
 
-const URL = 'http://localhost:3000/api/upload';
+const URL = 'http://54.159.148.36:3000/api/upload';
 
 @Component({
   selector: 'app-root',
