@@ -135,7 +135,7 @@ if __name__ == '__main__':
     df['resultado'] = np.array(resultado)
     print(df.head(20))
     df.to_excel(fileoutput)
-
+    sys.stdout.flush()
     
     
     
