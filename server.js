@@ -48,7 +48,7 @@ app.post('/api/upload', upload.single('photo'), function (req, res) {
     console.log('file received');
     console.log(req.file)
     //debe llamar al py
-    const pythonProcess  = spawn("python", ["ValidadorEmail.py",req.file.filename]);
+    const pythonProcess  = spawn("python3", ["ValidadorEmail.py",req.file.filename]);
     pythonProcess.stdout.on('data', (data) => {
       console.log(data.toString());
     });
