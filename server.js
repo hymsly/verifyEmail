@@ -49,14 +49,26 @@ app.post('/api/upload', upload.single('photo'), function (req, res) {
     console.log(req.file)
     //debe llamar al py
     const pythonProcess  = spawn("python3", ["ValidadorEmail.py",req.file.filename]);
-    var filenameinput = req.file.filename.split('.');
-    var filenameoutput = filenameinput[0] + '_output.xlsx';
     pythonProcess.stdout.on('data', (data) => {
       console.log(data.toString());
-      res.sendFile(path.join(__dirname,"uploads/" + filenameoutput));
+      return res.send({
+        success:true,
+        filename: req.file.filename.split('.')[0]
+      })
     });
   }
 });
+
+app.get('/api/upload/:id',function(req,res){
+  var filenameinput = req.params.id;
+  var filenameoutput = filenameinput + '_output.xlsx';
+  var pathFileOuput = path.join(__dirname,DIR,filenameoutput);
+  res.sendFile( pathFileOuput,function(err){
+    if(err){
+      console.log(err);
+    }
+  });
+})
 
 const PORT = process.env.PORT || 3000;
 

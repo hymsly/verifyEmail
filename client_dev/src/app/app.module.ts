@@ -5,6 +5,7 @@ import { NgModule } from '@angular/core';
 import { FileUploadModule } from 'ng2-file-upload';
 import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
+import { HttpClientModule } from  '@angular/common/http';
 
 //hash location
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
@@ -17,7 +18,8 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
   imports: [
     BrowserModule,
     FormsModule,
-    FileUploadModule
+    FileUploadModule,
+    HttpClientModule
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy }
